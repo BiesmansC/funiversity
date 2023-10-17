@@ -26,7 +26,10 @@ public class ProfessorService {
     }
 
     public ProfessorDto getProfessor(String id) {
-        return professorMapper.mapToDto(professorRepository.getById(id));
+        return professorMapper.mapToDto(
+                professorRepository
+                        .getById(id)
+                        .orElseThrow(() -> new IllegalArgumentException("No Professor could be found for id " + id)));
     }
 
     public List<ProfessorDto> getAllProfessors() {
@@ -37,7 +40,9 @@ public class ProfessorService {
     }
 
     public ProfessorDto changeProfessor(UpdateProfessorDto updateProfessorDto, String id) {
-        Professor professor = professorRepository.getById(id);
+        Professor professor = professorRepository
+                .getById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No Professor could be found for id " + id));
         professor.setFirstName(updateProfessorDto.getFirstName());
         professor.setLastName(updateProfessorDto.getLastName());
         return professorMapper.mapToDto(professor);

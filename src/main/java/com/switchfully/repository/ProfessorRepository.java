@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @ApplicationScoped
@@ -25,19 +26,16 @@ public class ProfessorRepository {
         return professor;
     }
 
-    public Professor getById(String id) {
+    public Optional<Professor> getById(String id) {
         Professor foundProfessor = professorById.get(id);
-        if (foundProfessor == null) {
-            throw new IllegalArgumentException("No Professor could be found for id " + id);
-        }
-        return foundProfessor;
+        return Optional.ofNullable(foundProfessor);
     }
 
     public Collection<Professor> getAll() {
         return professorById.values();
     }
 
-    public boolean delete(String id){
+    public boolean delete(String id) {
         Professor professor = professorById.remove(id);
         return professor != null;
     }
